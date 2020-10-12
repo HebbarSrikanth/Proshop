@@ -1,0 +1,14 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "Backend for MERN proshop web application",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "author": "Srikanth Hebbar M P",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
