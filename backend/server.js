@@ -1,5 +1,22 @@
 //Import the Express module using require keyword
-const express = require('express')
-const app = express()
+import express from 'express'
+import dotenv from 'dotenv'
+import products from './data/products.js'
+dotenv.config()
 
-app.listen(5000, console.log("Server listening in port 5000")) 
+const app = express()
+const PORT = process.env.PORT || 5000
+const environment = process.env.NODE_ENV
+
+//Fetch all the products present in the product file
+app.get('/products', (req, res) => {
+    res.json(products)
+})
+
+//Fetch individual products
+app.get('/products/:id', (req, res) => {
+    const product = products.find(p => p._id === req.params.id)
+    res.json(product)
+})
+
+app.listen(PORT, console.log(`Server is running in ${environment} mode in the port ${PORT}`)) 
