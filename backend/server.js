@@ -2,7 +2,10 @@
 import express from 'express'
 import dotenv from 'dotenv'
 import products from './data/products.js'
+import dbConnect from './config/db.js'
 dotenv.config()
+
+dbConnect()
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -19,4 +22,4 @@ app.get('/products/:id', (req, res) => {
     res.json(product)
 })
 
-app.listen(PORT, console.log(`Server is running in ${environment} mode in the port ${PORT}`)) 
+app.listen(PORT, console.log(`Server is running in ${environment} mode in the port ${PORT}`.yellow.bold)) 
