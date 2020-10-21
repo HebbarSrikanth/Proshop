@@ -14,8 +14,8 @@ const App = () => {
       <main className='py-3'>
         <Container>
           <Switch>
-            <Route path='/' exact component={HomeScreen} />
-            <Route path='/product/:id' component={ProductScreen} />
+            <Route exact path='/' component={HomeScreen} />
+            <Route path='/api/products/:id' component={ProductScreen} />
           </Switch>
         </Container>
       </main>
