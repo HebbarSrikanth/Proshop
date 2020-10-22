@@ -54,9 +54,12 @@ const Rating = ({ rating, color, text }) => {
     )
 }
 
+Rating.defultProps = {
+    rating: 0
+}
+
 Rating.propTypes = {
     color: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
     text: PropTypes.string.isRequired
 }
 

@@ -4,6 +4,8 @@ import { individualProduct } from '../actions/productActions'
 import { Link } from 'react-router-dom'
 import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
 import Rating from '../Components/Rating'
+import Loader from '../Components/Loader'
+import Message from '../Components/Message'
 
 
 const ProductScreen = ({ match }) => {
@@ -11,19 +13,19 @@ const ProductScreen = ({ match }) => {
     const dispatch = useDispatch()
 
     const productDetail = useSelector(state => state.productDetails)
-    const { product } = productDetail
+    const { product, loading, error } = productDetail
 
     useEffect(() => {
         dispatch(individualProduct(match.params.id))
         //eslint-disable-next-line
-    }, [dispatch, match])
+    }, [])
 
     return (
         <>
             <Link to='/' className='btn btn-light'>
                 Go Back
             </Link>
-            {product &&
+            {loading ? <Loader /> : error ? <Message variant='danger' message={error} /> : product &&
                 <Row>
                     <Col md={6}>
                         <Image src={product.image} fluid />

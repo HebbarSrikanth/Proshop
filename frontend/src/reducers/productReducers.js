@@ -1,16 +1,18 @@
+import { types } from '../constants/type'
+
 export const productListReducer = (state = { products: [] }, action) => {
     switch (action.type) {
-        case 'PRODUCT_LIST_REQUEST': return {
+        case types.PRODUCT_LIST_REQUEST: return {
             loading: true,
             products: []
         }
 
-        case 'PRODUCT_FETCH_SUCCESS': return {
+        case types.PRODUCT_FETCH_SUCCESS: return {
             loading: false,
             products: action.payload
         }
 
-        case 'PRODUCT_FETCH_ERROR': return {
+        case types.PRODUCT_FETCH_ERROR: return {
             loading: false,
             error: action.payload
         }
@@ -21,17 +23,17 @@ export const productListReducer = (state = { products: [] }, action) => {
 
 export const individualProductReducer = (state = { product: { reviews: [] } }, action) => {
     switch (action.type) {
-        case 'PRODUCT_REQUEST': return {
+        case types.PRODUCT_DETAIL_REQUEST: return {
             loading: true,
             ...state
         }
 
-        case 'FETCH_SUCCESS': return {
+        case types.PRODUCT_DETAIL_FETCH_SUCCESS: return {
             loading: false,
             product: action.payload
         }
 
-        case 'FETCH_ERROR': return {
+        case types.PRODUCT_DETAIL_FETCH_ERROR: return {
             loading: false,
             error: action.payload
         }
