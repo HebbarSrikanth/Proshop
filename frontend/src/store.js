@@ -1,7 +1,7 @@
-import { json } from 'express'
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import reduxThunk from 'redux-thunk'
+import { cartReducers } from './reducers/cartReducers'
 import { productListReducer, individualProductReducer } from './reducers/productReducers'
 
 const cartItemsfromStorage = localStorage.getItem('cartItems') ?
@@ -9,7 +9,8 @@ const cartItemsfromStorage = localStorage.getItem('cartItems') ?
 
 const reducer = combineReducers({
     productList: productListReducer,
-    productDetails: individualProductReducer
+    productDetails: individualProductReducer,
+    cart: cartReducers
 })
 
 const initialState = {
