@@ -1,14 +1,16 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { individualProduct } from '../actions/productActions'
 import { Link } from 'react-router-dom'
-import { Row, Col, ListGroup, Image, Card, Button } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Card, Button, Form } from 'react-bootstrap'
 import Rating from '../Components/Rating'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
 
 
 const ProductScreen = ({ match }) => {
+
+    const [qty, setQty] = useState(1)
 
     const dispatch = useDispatch()
 
@@ -67,10 +69,22 @@ const ProductScreen = ({ match }) => {
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <Row>
-                                        <Button className='btn-block'
-                                            disabled={product.countInStock <= 0}
-                                            type='button'
-                                        >Add to Cart</Button>
+                                        <Col>Quantity:</Col>
+                                        <Col>
+                                            <Form.Control as='select' value={qty} onChange={e => setQty(e.target.value)}>
+                                                {[...Array(product.countInStock)].map((val, id) => <option key={id}>{id + 1}</option>)}
+                                            </Form.Control>
+                                        </Col>
+                                    </Row>
+                                </ListGroup.Item>
+                                <ListGroup.Item>
+                                    <Row>
+                                        <Link to={`/cart/${product._id}?qty=${qty}`}>
+                                            <Button className='btn-block'
+                                                disabled={product.countInStock <= 0}
+                                                type='button'
+                                            >Add to Cart</Button>
+                                        </Link>
                                     </Row>
                                 </ListGroup.Item>
                             </ListGroup>

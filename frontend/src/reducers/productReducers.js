@@ -25,7 +25,9 @@ export const individualProductReducer = (state = { product: { reviews: [] } }, a
     switch (action.type) {
         case types.PRODUCT_DETAIL_REQUEST: return {
             loading: true,
-            ...state
+            state: {
+                product: { review: [] }
+            }
         }
 
         case types.PRODUCT_DETAIL_FETCH_SUCCESS: return {
