@@ -53,10 +53,11 @@ const fetchUserProfile = asyncHandler(async (req, res) => {
 // @route GET /user/register
 // @access Public
 const registerUser = asyncHandler(async (req, res) => {
+    console.log("Called for Register request")
     const { name, email, password, phone } = req.body
 
     //Check whether the user has already registered
-    const userExists = await User.findOne(email)
+    const userExists = await User.findOne({ email })
 
     if (userExists) {
         res.status(400)
