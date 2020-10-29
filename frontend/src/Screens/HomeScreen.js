@@ -21,7 +21,7 @@ const HomeScreen = () => {
     return (
         <>
             {loading ? <Loader /> :
-                error ? <Message variant='red' message={error} /> :
+                error ? <Message variant='danger'>{error}</Message> :
                     <div>
                         <h2>Welcome to Proshop</h2>
                         <Row>

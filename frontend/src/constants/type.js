@@ -11,5 +11,10 @@ export const types = {
 
     //Cart Types
     CART_ADD: 'CART_ADD',
-    CART_REMOVE: 'CART_REMOVE'
+    CART_REMOVE: 'CART_REMOVE',
+
+    //Login Types
+    LOGIN_REQUEST: 'LOGIN_REQUEST',
+    LOGIN_SUCCESSFUL: 'LOGIN_SUCCESSFUL',
+    LOGIN_FAIL: 'LOGIN_FAIL'
 }

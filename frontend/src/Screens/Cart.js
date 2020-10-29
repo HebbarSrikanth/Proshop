@@ -39,8 +39,7 @@ const Cart = ({ match, location, history }) => {
             <Col md={8}>
                 <h2 style={{ textAlign: 'center' }}>Cart</h2>
                 {cartItems.length === 0 ?
-                    <Message
-                        message={'Your cart is empty '} />
+                    <Message>Your Cart is Empty <Link to='/'>Go Back</Link></Message>
                     : (
                         <ListGroup variant='flush'>
                             {cartItems.map(item => (
