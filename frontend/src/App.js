@@ -7,6 +7,8 @@ import Footer from './Components/Footer';
 import HomeScreen from './Screens/HomeScreen';
 import ProductScreen from './Screens/ProductScreen';
 import Cart from './Screens/Cart';
+import LoginScreen from './Screens/LoginScreen';
+import RegisterScreen from './Screens/RegisterScreen';
 
 const App = () => {
   return (
@@ -19,6 +21,8 @@ const App = () => {
             <Route path='/api/products/:id' component={ProductScreen} />
             {/* Question Mark is added so that id may be optional */}
             <Route path='/cart/:id?' component={Cart} />
+            <Route path='/user/login' component={LoginScreen} />
+            <Route path='/user/register' component={RegisterScreen} />
           </Switch>
         </Container>
       </main>

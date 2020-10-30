@@ -16,5 +16,6 @@ export const types = {
     //Login Types
     LOGIN_REQUEST: 'LOGIN_REQUEST',
     LOGIN_SUCCESSFUL: 'LOGIN_SUCCESSFUL',
-    LOGIN_FAIL: 'LOGIN_FAIL'
+    LOGIN_FAIL: 'LOGIN_FAIL',
+    LOGOUT: 'LOG_OUT'
 }

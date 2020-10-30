@@ -1,7 +1,7 @@
 import Axios from 'axios'
 import { types } from '../constants/type'
 
-export const userLogin = ({ email, password }) => async (dispatch) => {
+export const login = (email, password) => async (dispatch) => {
     dispatch({
         type: types.LOGIN_REQUEST
     })
@@ -28,5 +28,9 @@ export const userLogin = ({ email, password }) => async (dispatch) => {
                 err.response.data.message : err.message
         })
     }
+}
 
+export const logout = () => async (dispatch) => {
+    dispatch({ type: types.LOGOUT })
+    localStorage.removeItem('userInfo')
 }
