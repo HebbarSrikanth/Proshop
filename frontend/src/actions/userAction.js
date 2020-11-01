@@ -71,3 +71,67 @@ export const register = (userInfo) => async (dispatch) => {
         })
     }
 }
+
+export const fetchProfileDetails = (id) => async (dispatch, getState) => {
+
+    try {
+        dispatch({ type: types.PROFILE_REQUEST })
+
+        //Get the token value using getState which will fetch the golbal state that is present
+        const token = getState().userLogin.userInfo.token
+
+        //Then add the token in header for further authoriztion
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.get(`/user/${id}`, config)
+
+        dispatch({
+            type: types.PROFILE_SUCCESSFUL,
+            payload: data
+        })
+    } catch (err) {
+        console.log('Error while fetching the profile details')
+        console.log(err)
+        dispatch({
+            type: types.PROFILE_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}
+
+export const updateUserProfile = ({ name, email, phone, password }) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: types.UPDATE_PROFILE_REQUEST })
+
+        const token = getState().userLogin.userInfo.token
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.put('/user/profile', { name, email, phone, password }, config)
+
+        dispatch({
+            type: types.UPDATE_PROFILE_SUCCESS,
+            payload: data
+        })
+
+    } catch (err) {
+        console.log('Error while updating the user profile details')
+        console.log(err)
+        dispatch({
+            type: types.UPDATE_PROFILE_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}

@@ -25,6 +25,7 @@ const Cart = ({ match, location, history }) => {
 
     const checkoutHandler = () => {
         console.log("Clicked on proceed handler")
+        history.push('/user/login?redirect=shipping')
     }
 
     useEffect(() => {

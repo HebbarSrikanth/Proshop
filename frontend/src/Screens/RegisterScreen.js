@@ -10,9 +10,12 @@ import { register } from '../actions/userAction'
 const RegisterScreen = ({ history }) => {
     let redirect = '/'
 
+    //Redux Related
     const dispatch = useDispatch()
     const user = useSelector(state => state.userRegister)
     const { userInfo, error, loading } = user
+
+    //Page State
     const [state, setState] = useState({
         name: '',
         email: '',
@@ -20,6 +23,7 @@ const RegisterScreen = ({ history }) => {
         password: '',
         confirmPass: ''
     })
+    const [message, setMessage] = useState(null)
 
     const onChangeHandler = (e) => {
         setState({
@@ -37,14 +41,19 @@ const RegisterScreen = ({ history }) => {
     const submitHandler = (e) => {
         e.preventDefault()
         console.log('About to Register')
-        dispatch(register({
-            name: state.name, email: state.email, phone: state.phone, password: state.password
-        }))
+        if (state.password !== state.confirmPass) {
+            setMessage(`Password doesn't match`)
+        } else {
+            dispatch(register({
+                name: state.name, email: state.email, phone: state.phone, password: state.password
+            }))
+        }
     }
 
     return (
         <FormContainer>
             <h2 style={{ textAlign: 'center' }}>Register</h2>
+            {message && <Message variant='danger'>{message}</Message>}
             {error ? <Message variant='danger'>{error}</Message> : null}
             {loading ? <Loader /> : null}
             <Form onSubmit={submitHandler}>

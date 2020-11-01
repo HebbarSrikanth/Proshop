@@ -87,4 +87,30 @@ const registerUser = asyncHandler(async (req, res) => {
 
 })
 
-export { fetchUserProfile, authUser, registerUser }
+const updateProfileDetails = asyncHandler(async (req, res) => {
+    console.log('Called for profile update')
+    const user = await User.findById(req.user._id)
+
+    if (user) {
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.phone = req.body.phone || user.phone
+        if (req.body.password) {
+            user.password = req.user.password
+        }
+        const updatedUser = await user.save()
+
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            token: generateToken(updatedUser._id)
+        })
+    } else {
+        res.status(404)
+        throw new Error('User not found!!!')
+    }
+})
+
+export { fetchUserProfile, authUser, registerUser, updateProfileDetails }
