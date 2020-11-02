@@ -35,5 +35,6 @@ export const types = {
     UPDATE_PROFILE_ERROR: 'UPDATE_PROFILE_ERROR',
 
     //Shipping Details
+    SAVE_SHIPPING_ADDRESS: 'SAVE_SHIPPING_ADDRESS'
 
 }

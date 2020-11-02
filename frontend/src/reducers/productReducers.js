@@ -30,10 +30,11 @@ export const individualProductReducer = (state = { product: { reviews: [] } }, a
             }
         }
 
-        case types.PRODUCT_DETAIL_FETCH_SUCCESS: return {
-            loading: false,
-            product: action.payload
-        }
+        case types.PRODUCT_DETAIL_FETCH_SUCCESS:
+            return {
+                loading: false,
+                product: action.payload
+            }
 
         case types.PRODUCT_DETAIL_FETCH_ERROR: return {
             loading: false,

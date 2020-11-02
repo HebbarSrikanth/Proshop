@@ -16,7 +16,7 @@ const Cart = ({ match, location, history }) => {
 
     //Fetch the items from cart using the useSelector
     const cart = useSelector(state => state.cart)
-    console.log(cart)
+
     const { cartItems } = cart
 
     const removeCart = (id) => {
@@ -53,7 +53,7 @@ const Cart = ({ match, location, history }) => {
                                             <Link to={`/api/products/${item.product}`}>{item.name}</Link>
                                         </Col>
                                         <Col md={2}>${item.price}</Col>
-                                        <Col md={2}>
+                                        <Col>
                                             <Form.Control as='select'
                                                 value={item.qty}
                                                 onChange={(e) => dispatch(addToCart(item.product, Number(e.target.value)))}
