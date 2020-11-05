@@ -1,4 +1,4 @@
-import mongoose, { mongo } from 'mongoose'
+import mongoose from 'mongoose'
 
 const orderSchema = mongoose.Schema({
 
@@ -23,11 +23,11 @@ const orderSchema = mongoose.Schema({
     shippingAddress: {
         address: { type: String, required: true },
         city: { type: String, required: true },
-        postalcode: { type: String, required: true },
+        postalCode: { type: String, required: true },
         country: { type: String, required: true },
     },
     paymentMethod: {
-        type: { type: String, required: true },
+        type: String,
         required: true
     },
     paymentResult: {

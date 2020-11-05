@@ -7,6 +7,7 @@ dotenv.config()
 //Importing the Route files
 import productRoute from './routes/productRouter.js'
 import authRoute from './routes/userRouter.js'
+import orderRoute from './routes/orderRouter.js'
 
 //Importing the DB connect files and initiating the connection
 import dbConnect from './config/db.js'
@@ -24,6 +25,7 @@ app.use(express.json())
 //Note : In this next is not use as response will end the cycle that will be sent in Product router
 app.use('/api/products', productRoute)
 app.use('/user', authRoute)
+app.use('/orders', orderRoute)
 
 //Not Found Error
 app.use(notFound)
