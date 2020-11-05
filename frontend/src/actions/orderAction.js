@@ -32,3 +32,63 @@ export const addOrderAction = (order) => async (dispatch, getState) => {
     }
 
 }
+
+export const fetchOrderDetails = (id) => async (dispatch, getState) => {
+    try {
+        console.log('In Fetch Order Action')
+        dispatch({ type: types.FETCHORDER_REQUEST })
+        const token = getState().userLogin.userInfo.token
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.get(`/orders/${id}`, config)
+        console.log(data)
+
+        dispatch({
+            type: types.FETCHORDER_SUCCESS,
+            payload: data
+        })
+
+    } catch (err) {
+        console.log('Error in fetch order details')
+        console.log(err)
+        dispatch({
+            type: types.FETCHORDER_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}
+
+export const updatePaymentDetails = (id, paymentDetails) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: types.PAYMENT_REQUEST })
+
+        const token = getState().userLogin.userInfo.token
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.put(`/orders/${id}/pay`, paymentDetails, config)
+
+        dispatch({
+            type: types.PAYMENT_REQUEST,
+            payload: data
+        })
+
+    } catch (err) {
+        dispatch({
+            type: types.PAYMENT_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}

@@ -32,6 +32,7 @@ const PlaceOrderScreen = ({ history }) => {
     useEffect(() => {
         if (success) {
             history.push(`/orders/${order._id}`)
+            console.log('Success')
         }
         //eslint-disable-next-line
     }, [history, success])
