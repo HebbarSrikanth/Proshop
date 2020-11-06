@@ -33,6 +33,8 @@ export const login = (email, password) => async (dispatch) => {
 export const logout = () => async (dispatch) => {
     dispatch({ type: types.LOGOUT })
     localStorage.removeItem('userInfo')
+    dispatch({ type: types.USERORDER_RESET })
+    dispatch({ type: types.PROFILE_RESET })
 }
 
 export const register = (userInfo) => async (dispatch) => {
@@ -134,4 +136,37 @@ export const updateUserProfile = ({ name, email, phone, password }) => async (di
                 err.response.data.message : err.message
         })
     }
+}
+
+export const fetchUserOrders = () => async (dispatch, getState) => {
+
+    try {
+        console.log('In Fetch user all order details action')
+        dispatch({ type: types.USERORDER_REQUEST })
+
+        const token = getState().userLogin.userInfo.token
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.get('/user/myorders', config)
+        console.log(data)
+
+        dispatch({
+            type: types.USERORDER_SUCCESS,
+            payload: data
+        })
+    } catch (err) {
+        console.log('Error while fetching the user order details')
+        console.log(err)
+        dispatch({
+            type: types.USERORDER_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+
 }

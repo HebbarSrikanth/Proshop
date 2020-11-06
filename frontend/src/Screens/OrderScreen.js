@@ -1,24 +1,62 @@
-import React, { useEffect } from 'react'
+import Axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import { PayPalButton } from 'react-paypal-button-v2'
 import { Row, Col, ListGroup, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { fetchOrderDetails } from '../actions/orderAction'
+import { fetchOrderDetails, updatePaymentDetails } from '../actions/orderAction'
 import Spinner from '../Components/Loader'
 import Message from '../Components/Message'
+import { types } from '../constants/type'
 
 const OrderScreen = ({ match }) => {
     //Redux Related
     const dispatch = useDispatch()
     const orderState = useSelector(state => state.orderDetails)
     const { loading, error, order } = orderState
+    const orderPay = useSelector(state => state.orderPay)
+    const { loading: loadingPay, success: successPay } = orderPay
+
+    //Create a state variable when tell if the paypal sdk is ready or not
+    const [sdkReady, setSdkReady] = useState(false)
+    const orderId = match.params.id
 
     useEffect(() => {
         console.log('Here in Order Screen')
-        if (match.params.id) {
-            dispatch(fetchOrderDetails(match.params.id))
+
+        //Fetch the Paypal Client ID
+        const addPaypalClient = async () => {
+            const { data: clientId } = await Axios.get('/api/config/paypal')
+            const script = document.createElement('script')
+            script.type = 'text/javascript'
+            script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`
+            script.async = true
+            script.onload = () => {
+                setSdkReady(true)
+            }
+            document.body.appendChild(script)
+        }
+
+        if (!order || successPay) {
+            //If Order detail is not present in state 
+            //Or if the user paid is successful , then dispatch 
+            dispatch({ type: types.PAYMENT_RESET })
+            dispatch(fetchOrderDetails(orderId))
+        } else if (!order.isPaid) {
+            //if the payment is not done ,and if paypal window is not present
+            if (!window.paypal) {
+                addPaypalClient()
+            } else {
+                setSdkReady(true)
+            }
         }
         //eslint-disable-next-line
-    }, [match])
+    }, [orderId, dispatch, order, successPay])
+
+    const successPaymentHandler = (paymentResult) => {
+        console.log(paymentResult)
+        dispatch(updatePaymentDetails(orderId, paymentResult))
+    }
 
     return (
         loading ? <Spinner /> : error ? <Message variant='danger'>{error}</Message> : (
@@ -104,6 +142,18 @@ const OrderScreen = ({ match }) => {
                                 <Col>$ {order.totalPrice}</Col>
                             </Row>
                         </ListGroup.Item>
+                        {
+                            !order.isPaid && (
+                                <ListGroup.Item>
+                                    {loadingPay && <Spinner />}
+                                    {!sdkReady ? <Spinner /> : (
+                                        <PayPalButton amount={order.totalPrice}
+                                            onSuccess={successPaymentHandler}
+                                        />
+                                    )}
+                                </ListGroup.Item>
+                            )
+                        }
                     </ListGroup>
                 </Col>
             </Row>

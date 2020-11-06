@@ -54,6 +54,8 @@ export const userProfileReducer = (state = { user: {} }, action) => {
             error: action.payload
         }
 
+        case types.PROFILE_RESET: return { user: {} }
+
         default: return state;
     }
 }
@@ -74,6 +76,25 @@ export const profileUpdateReducer = (state = {}, action) => {
             error: action.payload
         }
         default: return state
+    }
+}
+
+export const orderListReducer = (state = { orders: [] }, action) => {
+    switch (action.type) {
+        case types.USERORDER_REQUEST: return { loading: true }
+
+        case types.USERORDER_SUCCESS: return {
+            loading: false,
+            orders: action.payload
+        }
+
+        case types.USERORDER_ERROR: return {
+            loading: false,
+            error: action.payload
+        }
+
+        case types.USERORDER_RESET: return { orders: [] }
+        default: return state;
     }
 }
 

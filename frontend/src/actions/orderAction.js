@@ -46,7 +46,6 @@ export const fetchOrderDetails = (id) => async (dispatch, getState) => {
         }
 
         const { data } = await Axios.get(`/orders/${id}`, config)
-        console.log(data)
 
         dispatch({
             type: types.FETCHORDER_SUCCESS,
@@ -80,7 +79,7 @@ export const updatePaymentDetails = (id, paymentDetails) => async (dispatch, get
         const { data } = await Axios.put(`/orders/${id}/pay`, paymentDetails, config)
 
         dispatch({
-            type: types.PAYMENT_REQUEST,
+            type: types.PAYMENT_SUCCESS,
             payload: data
         })
 

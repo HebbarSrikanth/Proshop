@@ -26,6 +26,7 @@ app.use(express.json())
 app.use('/api/products', productRoute)
 app.use('/user', authRoute)
 app.use('/orders', orderRoute)
+app.use('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID))
 
 //Not Found Error
 app.use(notFound)
