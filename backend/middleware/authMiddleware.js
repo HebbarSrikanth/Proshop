@@ -25,4 +25,15 @@ const protect = asyncHandler(async (req, res, next) => {
     }
 })
 
-export { protect }
+const adminProtect = asyncHandler(async (req, res, next) => {
+    console.log('Here for admin authorization')
+    const user = await User.findById(req.user._id)
+    if (user && user.isAdmin) {
+        next()
+    } else {
+        res.status(401)
+        throw new Error('Not an Admin to Authorize')
+    }
+})
+
+export { protect, adminProtect }

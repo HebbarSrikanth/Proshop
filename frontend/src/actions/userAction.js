@@ -35,6 +35,7 @@ export const logout = () => async (dispatch) => {
     localStorage.removeItem('userInfo')
     dispatch({ type: types.USERORDER_RESET })
     dispatch({ type: types.PROFILE_RESET })
+    dispatch({ type: types.ADMIN_USER_RESET })
 }
 
 export const register = (userInfo) => async (dispatch) => {

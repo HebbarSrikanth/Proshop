@@ -23,6 +23,20 @@ const Header = () => {
         </NavDropdown>
     )
 
+    const adminUser = userInfo && userInfo.isAdmin && (
+        <NavDropdown title='Admin' id='adminmenu'>
+            <LinkContainer to='/admin/userlist'>
+                <NavDropdown.Item>Users</NavDropdown.Item>
+            </LinkContainer>
+            <LinkContainer to='/admin/productlist'>
+                <NavDropdown.Item>Products</NavDropdown.Item>
+            </LinkContainer>
+            <LinkContainer to='/admin/order'>
+                <NavDropdown.Item>Orders</NavDropdown.Item>
+            </LinkContainer>
+        </NavDropdown>
+    )
+
     return (
         <header>
             <Navbar bg="dark" variant='dark' expand="lg" collapseOnSelect>
@@ -44,6 +58,7 @@ const Header = () => {
                                  </Nav.Link>
                             </LinkContainer>
                         }
+                        {userInfo && userInfo.isAdmin && adminUser}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

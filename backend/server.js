@@ -8,6 +8,7 @@ dotenv.config()
 import productRoute from './routes/productRouter.js'
 import authRoute from './routes/userRouter.js'
 import orderRoute from './routes/orderRouter.js'
+import adminRoute from './routes/adminRouter.js'
 
 //Importing the DB connect files and initiating the connection
 import dbConnect from './config/db.js'
@@ -26,6 +27,7 @@ app.use(express.json())
 app.use('/api/products', productRoute)
 app.use('/user', authRoute)
 app.use('/orders', orderRoute)
+app.use('/admin', adminRoute)
 app.use('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID))
 
 //Not Found Error
