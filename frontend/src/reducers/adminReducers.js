@@ -70,6 +70,8 @@ export const userUpdateReducer = (state = {}, action) => {
             loading: false,
             error: action.payload
         }
+
+        case types.ADMIN_EDITUSERPROFILE_RESET: return {}
         default: return state
     }
 }

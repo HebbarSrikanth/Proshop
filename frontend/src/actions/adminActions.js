@@ -42,7 +42,10 @@ export const deleteUser = (id) => async (dispatch, getState) => {
 
         const { data } = await Axios.delete('/admin/user/' + id, config)
 
-        dispatch({ type: types.ADMIN_DELETEUSER_SUCCESS })
+        dispatch({
+            type: types.ADMIN_DELETEUSER_SUCCESS,
+            payload: data
+        })
     } catch (err) {
         dispatch({
             type: types.ADMIN_DELETEUSER_ERROR,
@@ -79,20 +82,22 @@ export const fetchUserProfile = (id) => async (dispatch, getState) => {
 
 export const updateUserProfile = (id, profile) => async (dispatch, getState) => {
     try {
-        console.log(profile)
         dispatch({ type: types.ADMIN_EDITUSERPROFILE_REQUEST })
         const token = getState().userLogin.userInfo ? getState().userLogin.userInfo.token : ''
         const config = {
             headers: {
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
             }
         }
 
         const { data } = await Axios.put(`/admin/user/${id}/edit`, profile, config)
 
         dispatch({
-            type: types.ADMIN_EDITUSERPROFILE_SUCCESS,
+            type: types.ADMIN_EDITUSERPROFILE_SUCCESS
+        })
+        dispatch({
+            type: types.ADMIN_USERPROFILE_SUCCESS,
             payload: data
         })
 
