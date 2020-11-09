@@ -37,3 +37,31 @@ export const individualProduct = (id) => async (dispatch) => {
         })
     }
 }
+
+export const deleteProduct = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: types.ADMIN_PRODUCTDELETE_REQUEST })
+
+        const token = getState().userLogin ? getState().userLogin.userInfo.token : ''
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.delete(`/api/products/${id}`, config)
+
+        dispatch({
+            type: types.ADMIN_PRODUCTDELETE_SUCCESS,
+            payload: data
+        })
+    } catch (err) {
+        console.log('Error while deleting the product by admin')
+        dispatch({
+            type: types.ADMIN_PRODUCTDELETE_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}
