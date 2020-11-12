@@ -65,3 +65,33 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
         })
     }
 }
+
+export const createProduct = () => async (dispatch, getState) => {
+    try {
+        dispatch({ type: types.PRODUCT_CREATE_REQUEST })
+
+        const token = getState().userLogin ? getState().userLogin.userInfo.token : ''
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.post(`/api/products/create`, {}, config)
+
+        dispatch({
+            type: types.PRODUCT_CREATE_SUCCESS,
+            payload: data
+        })
+
+    } catch (err) {
+        console.log('Error while creating a product by admin')
+        console.log(err.response.data.message)
+        dispatch({
+            type: types.PRODUCT_CREATE_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}
