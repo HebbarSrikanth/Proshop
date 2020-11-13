@@ -75,3 +75,21 @@ export const userUpdateReducer = (state = {}, action) => {
         default: return state
     }
 }
+
+export const ordersListReducer = (state = { orderList: [] }, action) => {
+    switch (action.type) {
+        case types.ADMIN_FETCHORDER_REQUEST: return { loading: true }
+
+        case types.ADMIN_FETCHORDER_SUCCESS: return {
+            loading: false,
+            orderList: action.payload
+        }
+
+        case types.ADMIN_FETCHORDER_ERROR: return {
+            loading: false,
+            error: action.payload
+        }
+
+        default: return state
+    }
+} 

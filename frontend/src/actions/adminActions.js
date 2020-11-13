@@ -110,3 +110,34 @@ export const updateUserProfile = (id, profile) => async (dispatch, getState) => 
         })
     }
 }
+
+
+export const fetchOrders = () => async (dispatch, getState) => {
+    console.log('Here')
+    try {
+        dispatch({ type: types.ADMIN_FETCHORDER_REQUEST })
+
+        const token = getState().userLogin ? getState().userLogin.userInfo.token : 'null'
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.get('/admin/orders', config)
+
+        dispatch({
+            type: types.ADMIN_FETCHORDER_SUCCESS,
+            payload: data
+        })
+
+    } catch (err) {
+        console.log('Error while fetch the order details')
+        dispatch({
+            type: types.ADMIN_FETCHORDER_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}

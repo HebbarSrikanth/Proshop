@@ -1,4 +1,5 @@
 import User from '../model/userModel.js'
+import Order from '../model/orderModel.js'
 import asyncHandler from 'express-async-handler'
 
 //@DESC Fetch all the user those are signed in to the applications
@@ -59,5 +60,14 @@ export const fetchUserById = asyncHandler(async (req, res) => {
         res.status(404)
         throw new Error('User not found')
     }
+})
+
+//@DESC Fetch All the orders for admin
+//@route GET /orders
+//@access protected
+export const fetchOrders = asyncHandler(async (req, res) => {
+    console.log('In fetch orders')
+    const orders = await Order.find({}).populate('user', 'id name')
+    res.json(orders)
 })
 
