@@ -95,3 +95,33 @@ export const createProduct = () => async (dispatch, getState) => {
         })
     }
 }
+
+export const updateProduct = (product, productId) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: types.PRODUCT_UPDATE_REQUEST })
+
+        const token = getState().userLogin ? getState().userLogin.userInfo.token : ''
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.put(`/api/products/${productId}/edit`, product, config)
+
+        dispatch({
+            type: types.PRODUCT_UPDATE_SUCCESS,
+            payload: data
+        })
+
+    } catch (err) {
+        console.error(err);
+        dispatch({
+            type: types.PRODUCT_UPDATE_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}

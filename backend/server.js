@@ -1,5 +1,6 @@
 //Import the Express module using require keyword
 import express from 'express'
+import path from 'path'
 import dotenv from 'dotenv'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 dotenv.config()
@@ -9,6 +10,7 @@ import productRoute from './routes/productRouter.js'
 import authRoute from './routes/userRouter.js'
 import orderRoute from './routes/orderRouter.js'
 import adminRoute from './routes/adminRouter.js'
+import uploadRoute from './routes/uploadRouter.js'
 
 //Importing the DB connect files and initiating the connection
 import dbConnect from './config/db.js'
@@ -29,6 +31,10 @@ app.use('/user', authRoute)
 app.use('/orders', orderRoute)
 app.use('/admin', adminRoute)
 app.use('/api/config/paypal', (req, res) => res.send(process.env.PAYPAL_CLIENT_ID))
+app.use('/api/upload', uploadRoute)
+
+const __dirname = path.resolve()
+app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 //Not Found Error
 app.use(notFound)

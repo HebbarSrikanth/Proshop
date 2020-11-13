@@ -4,7 +4,7 @@ import reduxThunk from 'redux-thunk'
 import { cartReducers } from './reducers/cartReducers'
 import {
     productListReducer, individualProductReducer, productDeleteReducer,
-    createProductReducer
+    createProductReducer, updateProductReducer
 } from './reducers/productReducers'
 import {
     userLoginReducer, userRegisterReducer,
@@ -39,7 +39,8 @@ const reducer = combineReducers({
     userDetails: userDetailsReducer,
     userUpdate: userUpdateReducer,
     productDelete: productDeleteReducer,
-    createProduct: createProductReducer
+    createProduct: createProductReducer,
+    updateProduct: updateProductReducer
 })
 
 const initialState = {
