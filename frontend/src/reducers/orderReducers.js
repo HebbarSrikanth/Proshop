@@ -58,3 +58,23 @@ export const orderPayReducer = (state = {}, action) => {
         default: return state
     }
 }
+
+export const orderDeliverReducer = (state = {}, action) => {
+    switch (action.type) {
+        case types.ADMIN_DELIVER_REQUEST: return { loading: true }
+
+        case types.ADMIN_DELIVER_SUCCESS: return {
+            loading: false,
+            success: true
+        }
+
+        case types.ADMIN_DELIVER_ERROR: return {
+            loading: false,
+            error: action.payload
+        }
+
+        case types.ADMIN_DELIVER_RESET: return {}
+
+        default: return state
+    }
+}

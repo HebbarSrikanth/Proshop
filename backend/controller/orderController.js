@@ -63,10 +63,28 @@ const updatePaymentToPaid = asyncHandler(async (req, res) => {
         const updatedOrder = await order.save()
         res.json(updatedOrder)
     } else {
-        res.json(404)
+        res.status(404)
         throw new Error('Order Details Not Found')
     }
 })
 
+//@DESC Update the Delievered
+//@route PUT /orders/:id/deliever
+//@access admin protected
+const updateDeliver = asyncHandler(async (req, res) => {
+    const order = await Order.findById(req.params.id)
 
-export { addOrder, fetchOrderDetails, updatePaymentToPaid }
+    if (order) {
+        order.isDelievered = true
+        order.delieveredAt = Date.now()
+
+        const updatedOrder = await order.save()
+        res.json(updatedOrder)
+    } else {
+        res.status(404)
+        throw new Error('Order Detials not found!!')
+    }
+})
+
+
+export { addOrder, fetchOrderDetails, updatePaymentToPaid, updateDeliver }

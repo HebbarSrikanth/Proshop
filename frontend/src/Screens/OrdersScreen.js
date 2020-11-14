@@ -54,7 +54,7 @@ const OrdersScreen = ({ history }) => {
                                 <td>{order.createdAt.substring(0, 10)}</td>
                                 <td>{order.totalPrice}</td>
                                 <td>{order.isPaid ? 'Paid' : 'Not Paid'}</td>
-                                <td>{order.isDelievered ? 'Delievered' : 'Not Delievered'}</td>
+                                <td>{order.isDelievered ? `Delievered on ${order.delieveredAt.substring(0, 10)}` : 'Not Delievered'}</td>
                                 <td>
                                     <Button variant='info' type='button' onClick={() => detailHandler(order._id)} >
                                         Details

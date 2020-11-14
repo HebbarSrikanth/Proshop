@@ -91,3 +91,27 @@ export const updatePaymentDetails = (id, paymentDetails) => async (dispatch, get
         })
     }
 }
+
+export const updateOrderDeliver = (productId, product) => async (dispatch, getState) => {
+    try {
+        dispatch({ type: types.ADMIN_DELIVER_REQUEST })
+
+        const token = getState().userLogin ? getState().userLogin.userInfo.token : ''
+
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.put(`/orders/${productId}/deliver`, {}, config)
+
+        dispatch({
+            type: types.ADMIN_DELIVER_SUCCESS,
+            payload: data
+        })
+
+    } catch (err) {
+        console.log(err)
+    }
+}
