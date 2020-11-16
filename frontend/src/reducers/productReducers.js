@@ -105,3 +105,23 @@ export const updateProductReducer = (state = {}, action) => {
         default: return state
     }
 }
+
+export const insertReviewReducer = (state = {}, action) => {
+    switch (action.type) {
+        case types.PRODUCT_REVIEW_REQUEST: return { loading: true }
+
+        case types.PRODUCT_REVIEW_SUCCESS: return {
+            loading: false,
+            success: true,
+        }
+
+        case types.PRODUCT_REVIEW_ERROR: return {
+            loading: false,
+            error: action.payload
+        }
+
+        case types.PRODUCT_REVIEW_RESET: return {}
+
+        default: return state
+    }
+}

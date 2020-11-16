@@ -3,6 +3,7 @@ import express from 'express'
 import path from 'path'
 import dotenv from 'dotenv'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import morgan from 'morgan'
 dotenv.config()
 
 //Importing the Route files
@@ -17,6 +18,9 @@ import dbConnect from './config/db.js'
 dbConnect()
 
 const app = express()
+if (process.env.NODE_ENV === 'develpoment') {
+    app.use(morgan('dev'))
+}
 const PORT = process.env.PORT || 5000
 const environment = process.env.NODE_ENV
 app.listen(PORT, console.log(`Server is running in ${environment} mode in the port ${PORT}`.yellow.bold))

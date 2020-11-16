@@ -1,12 +1,11 @@
 import Axios from 'axios'
 import { types } from '../constants/type'
 
-export const listProducts = () => async (dispatch) => {
-
+export const listProducts = (keyword = '') => async (dispatch) => {
     try {
         dispatch({ type: types.PRODUCT_LIST_REQUEST })
 
-        const { data } = await Axios.get('/api/products')
+        const { data } = await Axios.get(`/api/products?keyword=${keyword}`)
 
         dispatch({ type: types.PRODUCT_FETCH_SUCCESS, payload: data })
 
@@ -120,6 +119,36 @@ export const updateProduct = (product, productId) => async (dispatch, getState) 
         console.error(err);
         dispatch({
             type: types.PRODUCT_UPDATE_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}
+
+export const insertReview = (review, productId) => async (dispatch, getState) => {
+    try {
+        console.log(review)
+        dispatch({ type: types.PRODUCT_REVIEW_REQUEST })
+
+        const token = getState().userLogin ? getState().userLogin.userInfo.token : ''
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            }
+        }
+
+        const { data } = await Axios.post(`/api/products/${productId}/review`, review, config)
+
+        dispatch({
+            type: types.PRODUCT_REVIEW_SUCCESS,
+            payload: data
+        })
+    } catch (err) {
+        console.error(err);
+        dispatch({
+            type: types.PRODUCT_REVIEW_ERROR,
             payload: err.response && err.response.data.message ?
                 err.response.data.message : err.message
         })

@@ -6,17 +6,19 @@ import { listProducts } from '../actions/productActions'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
 
-const HomeScreen = () => {
+const HomeScreen = ({ match }) => {
 
     const dispatch = useDispatch()
     const productList = useSelector(state => state.productList)
     const { products, error, loading } = productList
 
+    const keyword = match.params.keyword
+
     useEffect(() => {
         //fetchProducts()
-        dispatch(listProducts())
+        dispatch(listProducts(keyword))
         //eslint-disable-next-line
-    }, [])
+    }, [dispatch, keyword])
 
     return (
         <>

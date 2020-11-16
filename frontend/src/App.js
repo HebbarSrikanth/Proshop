@@ -28,6 +28,7 @@ const App = () => {
         <Container>
           <Switch>
             <Route exact path='/' component={HomeScreen} />
+            <Route path='/search/:keyword' component={HomeScreen} />
             <Route path='/api/products/:id' component={ProductScreen} />
             {/* Question Mark is added so that id may be optional */}
             <Route path='/cart/:id?' component={Cart} />

@@ -6,8 +6,15 @@ import asyncHandler from 'express-async-handler'
 // @route GET /api/products
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({})
+    const keyword = req.query.keyword ?
+        {
+            name: {
+                $regex: req.query.keyword,
+                $options: 'i'
+            }
+        } : {}
 
+    const products = await Product.find({ ...keyword })
     res.json(products)
 })
 
@@ -77,6 +84,41 @@ const updateProduct = asyncHandler(async (req, res) => {
     } else {
         res.status(404)
         throw new Error('Product not found')
+    }
+})
+
+// @DESC Provide Review by user
+// @route PUT /api/products/:id/review
+// @access PROTECTED
+export const insertReview = asyncHandler(async (req, res) => {
+    const product = await Product.findById(req.params.id)
+    if (product) {
+        const { review } = product
+        const reviewExists = review.find(reviews => reviews.user.toString() === req.user._id.toString())
+        if (reviewExists) {
+            res.status(401)
+            res.json({
+                "message": "Review Already Provided"
+            })
+        } else {
+            const providedReview = {
+                name: req.user.name,
+                rating: req.body.rating,
+                comment: req.body.comment,
+                user: req.user._id
+            }
+            review.push(providedReview)
+            product.numReviews = product.numReviews > 0 ?
+                product.numReviews + 1 : product.review.length
+
+            product.rating = review.reduce((acc, r) => acc + Number(r.rating), 0) / review.length
+
+            const updatedProduct = await product.save()
+            res.json(updatedProduct)
+        }
+    } else {
+        res.status(401)
+        throw new Error('Product not found!!')
     }
 })
 
