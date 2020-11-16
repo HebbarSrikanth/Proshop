@@ -5,20 +5,22 @@ import Product from '../Components/Product'
 import { listProducts } from '../actions/productActions'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
+import Paginate from '../Components/Paginate'
 
 const HomeScreen = ({ match }) => {
 
     const dispatch = useDispatch()
     const productList = useSelector(state => state.productList)
-    const { products, error, loading } = productList
+    const { products, error, loading, page, pages } = productList
 
     const keyword = match.params.keyword
+    const pageNumber = match.params.pageNumber || 1
 
     useEffect(() => {
         //fetchProducts()
-        dispatch(listProducts(keyword))
+        dispatch(listProducts(keyword, pageNumber))
         //eslint-disable-next-line
-    }, [dispatch, keyword])
+    }, [dispatch, keyword, pageNumber])
 
     return (
         <>
@@ -33,6 +35,7 @@ const HomeScreen = ({ match }) => {
                                 </Col>
                             ))}
                         </Row>
+                        <Paginate pages={pages} page={page} keyword={keyword ? keyword : ''} />
                     </div>
             }
         </>

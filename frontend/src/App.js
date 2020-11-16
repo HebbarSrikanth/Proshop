@@ -28,7 +28,10 @@ const App = () => {
         <Container>
           <Switch>
             <Route exact path='/' component={HomeScreen} />
-            <Route path='/search/:keyword' component={HomeScreen} />
+            <Route path='/search/:keyword' exact component={HomeScreen} />
+            <Route path='/page/:pageNumber' exact component={HomeScreen} />
+            <Route path='/search/:keyword/page/:pageNumber' exact component={HomeScreen} />
+
             <Route path='/api/products/:id' component={ProductScreen} />
             {/* Question Mark is added so that id may be optional */}
             <Route path='/cart/:id?' component={Cart} />
@@ -41,7 +44,7 @@ const App = () => {
             <Route path='/orders/:id' component={OrderScreen} />
             <Route path='/admin/userlist' component={UserListScreen} />
             <Route path='/admin/user/:id/edit' component={AdminUserEditScreen} />
-            <Route path='/admin/productlist' component={ProductListScreen} />
+            <Route path='/admin/productlist/:pageNumber?' component={ProductListScreen} />
             <Route path='/admin/product/:id/edit' component={EditProductScreen} />
             <Route path='/admin/orders' component={OrdersScreen} />
           </Switch>

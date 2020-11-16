@@ -1,11 +1,11 @@
 import Axios from 'axios'
 import { types } from '../constants/type'
 
-export const listProducts = (keyword = '') => async (dispatch) => {
+export const listProducts = (keyword = '', pageNumber = '') => async (dispatch) => {
     try {
         dispatch({ type: types.PRODUCT_LIST_REQUEST })
 
-        const { data } = await Axios.get(`/api/products?keyword=${keyword}`)
+        const { data } = await Axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`)
 
         dispatch({ type: types.PRODUCT_FETCH_SUCCESS, payload: data })
 
