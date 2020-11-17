@@ -154,3 +154,25 @@ export const insertReview = (review, productId) => async (dispatch, getState) =>
         })
     }
 }
+
+export const getTopProducts = () => async (dispatch) => {
+    try {
+        dispatch({ type: types.TOP_PRODUCTS_REQUEST })
+
+        const { data } = await Axios.get('/api/products/top/products')
+        console.log(data)
+
+        dispatch({
+            type: types.TOP_PRODUCTS_SUCCESS,
+            payload: data
+        })
+
+    } catch (err) {
+        console.error(err);
+        dispatch({
+            type: types.TOP_PRODUCTS_ERROR,
+            payload: err.response && err.response.data.message ?
+                err.response.data.message : err.message
+        })
+    }
+}

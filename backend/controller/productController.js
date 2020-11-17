@@ -7,7 +7,7 @@ import asyncHandler from 'express-async-handler'
 // @access Public
 const getProducts = asyncHandler(async (req, res) => {
 
-    const pageSize = 2
+    const pageSize = 10
     const page = req.query.pageNumber ? Number(req.query.pageNumber) : 1
 
     const keyword = req.query.keyword ?
@@ -98,7 +98,7 @@ const updateProduct = asyncHandler(async (req, res) => {
 // @DESC Provide Review by user
 // @route PUT /api/products/:id/review
 // @access PROTECTED
-export const insertReview = asyncHandler(async (req, res) => {
+const insertReview = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id)
     if (product) {
         const { review } = product
@@ -130,4 +130,12 @@ export const insertReview = asyncHandler(async (req, res) => {
     }
 })
 
-export { getProducts, getProductById, deleteProductById, insertProduct, updateProduct }
+const getTopProducts = asyncHandler(async (req, res) => {
+    const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+    res.json(products)
+})
+
+export {
+    getProducts, getProductById, deleteProductById,
+    insertProduct, updateProduct, insertReview, getTopProducts
+}
