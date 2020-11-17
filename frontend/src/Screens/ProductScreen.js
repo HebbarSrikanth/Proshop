@@ -7,6 +7,7 @@ import Rating from '../Components/Rating'
 import Loader from '../Components/Loader'
 import Message from '../Components/Message'
 import { types } from '../constants/type'
+import Meta from '../Components/Meta'
 
 
 const ProductScreen = ({ match }) => {
@@ -54,6 +55,7 @@ const ProductScreen = ({ match }) => {
             {loading ? <Loader /> : error ?
                 <Message varainat='danger'>{error}</Message> : product &&
                 <>
+                    <Meta title={product.name} />
                     <Row>
                         <Col md={6}>
                             <Image src={product.image} fluid />
